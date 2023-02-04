@@ -52,7 +52,7 @@ class NeuralEmbed(nn.Module):
         self.clipnet = clipnet
 
     def forward(self, x):
-        yhat = self.neuralnet(self.clipnet(x))
+        yhat = self.neuralnet(torch.tensor(self.clipnet(x)))
         return yhat
 
 # Init is ran on server startup
@@ -67,7 +67,7 @@ def init():
     torch_load = torch.load('model.pt')
     neuralmodel.load_state_dict(torch_load)
     clipmodel = ClipEmbed()
-    model = NeuralEmbed(neuralmodel, clipmodel).to(device)
+    model = NeuralEmbed(neuralmodel, clipmodel) # .to(device)
 
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
@@ -79,13 +79,14 @@ def inference(model_inputs:dict) -> dict:
         return {'error': 'imageByteString is required'}
 
     # convert image byte string to bytes
-    newbytes = base64.b64decode(image_byte_string)
+    image_encoded = image_byte_string.encode('utf-8')
+    image_bytes = BytesIO(base64.b64decode(image_encoded))
 
     # Load image
-    image = Image.open(BytesIO(newbytes))
+    image = Image.open(image_bytes)
     
     # Run the model
     result = model(image)
 
     # Return the results as a dictionary
-    return result
+    return result.tolist()[0]
