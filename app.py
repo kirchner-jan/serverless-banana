@@ -6,7 +6,7 @@ from torch import nn
 from transformers import CLIPProcessor, CLIPVisionModel
 from PIL import Image
 from path import Path
-from io import StringIO
+from io import BytesIO
 
 # Define model
 class NeuralNetwork(nn.Module):
@@ -82,8 +82,7 @@ def inference(model_inputs:dict) -> dict:
     newbytes = base64.b64decode(image_byte_string)
 
     # Load image
-    # image = Image.open(image_bytes)
-    image = Image.open(StringIO(newbytes))
+    image = Image.open(BytesIO(newbytes))
     
     # Run the model
     result = model(image)
