@@ -10,7 +10,7 @@ def download_model():
     # pipeline('fill-mask', model='bert-base-uncased')
     CLIPVisionModel.from_pretrained("openai/clip-vit-base-patch32")
     CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-    model_pt_url = "https://firebasestorage.googleapis.com/v0/b/authentication-374722.appspot.com/o/timtjc08%40gmail.com.pt?alt=media&token=bbf23944-eca4-4ffb-9ccb-82e5f6067586"
+    model_pt_url = "https://firebasestorage.googleapis.com/v0/b/authentication-374722.appspot.com/o/lindsay1807%40yahoo.ca.pt?alt=media&token=1916c226-dafc-421e-817d-3be7c9303c1a"
     r = requests.get(model_pt_url)
     with open("model.pt", "wb") as f:
         f.write(r.content)
